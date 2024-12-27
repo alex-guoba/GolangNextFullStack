@@ -1,0 +1,32 @@
+Server:
+  RunMode: debug
+  HTTPPort: 8080
+  ReadTimeout: 30s
+  WriteTimeout: 30s
+App:
+  DefaultPageSize: 5
+  MaxPageSize: 20
+  ServerShutdownTimeout: 10s
+Log:
+  LogSavePath: logs
+  LogFileName: app.log
+  Level: info
+  MaxSize: 10
+  MaxBackups: 5
+  Compress: False
+Database:
+  DBType: mysql
+  Username: root
+  Password: helloworld
+  Host: 127.0.0.1:3306
+  DBName: blog_service
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
+  MigrationURL: "file://db/migration"
+Ratelimit:
+  Enable: False
+  ConfigFile: sentinel.yml
+  CPULoadThresh: 0
+  CPULoadStrategy: -1 # 0: BBR, -1: NoAdaptive

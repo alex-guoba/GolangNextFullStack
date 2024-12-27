@@ -1,0 +1,4 @@
+GET http://127.0.0.1:8000/api/v1/tags
+# specify trace info
+X-Trace-ID: efbdbed17f4c6280e8c8c98d29123b8c
+X-Span-ID: ba9e689b153b8369

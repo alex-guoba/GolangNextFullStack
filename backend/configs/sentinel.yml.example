@@ -1,0 +1,29 @@
+version: "v1"
+sentinel:
+  app:
+    name: gin-clean-template
+    type: 0
+  log:
+    dir: "var/logs/csp"
+    pid: false
+    metric:
+      maxFileCount: 4
+      flushIntervalSec: 10
+      singleFileMaxSize: 10240000
+  stat:
+    globalStatisticSampleCountTotal: 20
+    globalStatisticIntervalMsTotal: 10000
+    metricStatisticSampleCount: 2 
+    metricStatisticIntervalMs: 1000
+    system:
+      collectIntervalMs: 1000
+      collectLoadIntervalMs: 1000
+      collectCpuIntervalMs: 1000
+      collectMemoryIntervalMs: 500
+
+  export:
+    metric:
+        http_addr: 127.0.0.1:8080
+      http_path: /metrics
+
+  useCacheTime: true

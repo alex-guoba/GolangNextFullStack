@@ -1,0 +1,695 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Clean Architecture template for Golang Gin services",
+        "title": "Gin-Clean-Template",
+        "contact": {
+            "name": "gelco",
+            "url": "https://github.com/alex-guoba/gin-clean-template"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://github.com/alex-guoba/gin-clean-template/blob/main/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/v1/articles": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取多个文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "文章名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "标签ID",
+                        "name": "tag_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "state",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.ListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "创建文章",
+                "parameters": [
+                    {
+                        "description": "标签ID",
+                        "name": "tag_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章标题",
+                        "name": "title",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章简述",
+                        "name": "desc",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "封面图片地址",
+                        "name": "cover_image_url",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章内容",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "创建者",
+                        "name": "created_by",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "状态",
+                        "name": "state",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/articles/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取单个文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "文章ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ArticleEntity"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新文章",
+                "parameters": [
+                    {
+                        "description": "标签ID",
+                        "name": "tag_id",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章标题",
+                        "name": "title",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章简述",
+                        "name": "desc",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "封面图片地址",
+                        "name": "cover_image_url",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "文章内容",
+                        "name": "content",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "修改者",
+                        "name": "modified_by",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.MapResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "文章ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tags": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取多个标签",
+                "parameters": [
+                    {
+                        "maxLength": 100,
+                        "type": "string",
+                        "description": "标签名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "type": "integer",
+                        "default": 1,
+                        "description": "状态",
+                        "name": "state",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.ListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增标签",
+                "parameters": [
+                    {
+                        "maxLength": 100,
+                        "minLength": 3,
+                        "description": "标签名称",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "default": 1,
+                        "description": "状态",
+                        "name": "state",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "maxLength": 100,
+                        "minLength": 3,
+                        "description": "创建者",
+                        "name": "created_by",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/app.MapResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tags/{id}": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "标签ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "maxLength": 100,
+                        "minLength": 3,
+                        "description": "标签名称",
+                        "name": "name",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "default": 1,
+                        "description": "状态",
+                        "name": "state",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "maxLength": 100,
+                        "minLength": 3,
+                        "description": "修改者",
+                        "name": "modified_by",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/app.MapResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "标签ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/delay/{seconds}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delay for the specified period",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "seconds to wait for",
+                        "name": "seconds",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "app.ListResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "description": "列表数据"
+                },
+                "pager": {
+                    "$ref": "#/definitions/app.Pager"
+                }
+            }
+        },
+        "app.MapResponse": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "app.Pager": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "total_rows": {
+                    "description": "总行数",
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.ArticleEntity": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "cover_image_url": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "integer"
+                },
+                "tag": {
+                    "$ref": "#/definitions/entity.TagEntity"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.TagEntity": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_del": {
+                    "type": "integer"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
+                }
+            }
+        },
+        "errcode.Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误码",
+                    "type": "integer"
+                },
+                "details": {
+                    "description": "详细信息",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "msg": {
+                    "description": "错误消息",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

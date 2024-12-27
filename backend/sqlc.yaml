@@ -1,0 +1,23 @@
+# 尝试sqlc后放弃，原因
+# - 不支持join
+# - 对null字段处理（过滤null字段更新）比较别扭，依赖DB能力：https://docs.sqlc.dev/en/stable/howto/named_parameters.html
+# - RETURNING（返回插入值） 仅支持postgres。
+# 相对gORM能力上还有差距。
+
+version: "2"
+sql:
+  - engine: "mysql"
+    queries: "db/query"
+    schema: "db/migration"
+    gen:
+      go:
+        package: "db"
+        out: "db/sqlc"
+        sql_package: "database/sql"
+        sql_driver: "github.com/go-sql-driver/mysql"
+        emit_json_tags: true
+        overrides:
+          - db_type: "timestamptz"
+            go_type: "time.Time"
+          - db_type: "uuid"
+            go_type: "github.com/google/uuid.UUID"
