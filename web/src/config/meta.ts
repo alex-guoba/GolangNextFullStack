@@ -1,5 +1,5 @@
 export const siteMeta = {
-    name: "GinCleanTemplate",
+    name: "BlogService",
     author: "alex-guoba",
     language: "en-us",
     siteUrl: "http://localhost:3000",

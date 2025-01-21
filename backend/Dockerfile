@@ -16,7 +16,7 @@ WORKDIR /usr/local/rest-api
 
 RUN apk add --no-cache tzdata
 
-EXPOSE 8080
+# EXPOSE 8080
 
 COPY --from=builder /backend-build/api-server /usr/local/rest-api
 

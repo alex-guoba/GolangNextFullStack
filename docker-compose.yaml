@@ -3,43 +3,42 @@ services:
     image: mysql:8.0
     container_name: mdb
     environment:
-      - MYSQL_ROOT_PASSWORD=helloworld
-      - MYSQL_DATABASE=blog_service
-      - TZ=Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DBNAME}
+      MYSQL_TCP_PORT: ${MYSQL_PORT}
+      TZ: ${TZ}
     ports:
-      - "3306:3306"
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+      start_period: 0s
   app-backend:
     container_name: app-backend
     image: app-backend:1.0.0
     build: ./backend
     ports:
-      - "8080:8080"
+      - ${BACKEND_PORT}:${BACKEND_PORT}
     environment:
-      - DATABASE_USERNAME=root
-      - DATABASE_HOST=mdb
-      - DATABASE_PASSWORD=helloworld
-      - DATABASE_DBNAME=blog_service
-      - SERVER_HTTPPORT=8080
-      - TZ=Asia/Shanghai
+      DATABASE_USERNAME: root
+      DATABASE_HOST: mdb:${MYSQL_PORT}
+      DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE_DBNAME: ${MYSQL_DBNAME}
+      SERVER_HTTPPORT: ${BACKEND_PORT}
+      TZ: ${TZ}
     depends_on:
-      - mdb
-    entrypoint: 
-      [
-        "/usr/local/rest-api/scripts/startup/wait-for.sh",
-        "mdb:3306",
-        "--",
-        "/usr/local/rest-api/api-server",
-      ]
+      mdb:
+        condition: service_healthy
   app-web:
     container_name: app-web
     image: app-web:1.0.0
     build: ./web
     ports:
-      - "3000:3000"
+      - ${WEB_PORT}:${WEB_PORT}
     environment:
-      - TZ=Asia/Shanghai
-      - BACKEND_URL=http://app-backend:8080
-      - SITE_URL=http://localhost:3000
-    depends_on:
-      - app-backend
-
+      TZ: ${TZ}
+      PORT: ${WEB_PORT}
+      BACKEND_URL: http://app-backend:${BACKEND_PORT}
+      SITE_URL: http://localhost:${WEB_PORT}

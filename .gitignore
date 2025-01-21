@@ -5,3 +5,4 @@ _*
 bin/
 *.out
 scripts/load-testing/output.bin
+.env

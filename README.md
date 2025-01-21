@@ -1,6 +1,7 @@
 
 # GolangNextFullStack - Full Stack App with Golang And Next.js
 
+
 ## Introduction 
 
 This is a template for building full stack web applications with Golang and Next.js. It includes the following features:
@@ -20,7 +21,12 @@ docker compose up -d
 ```
 3. Open http://localhost:3000/
 
-## Features
+
+![BlogService](https://github.com/user-attachments/assets/404f6453-017c-4376-9f5c-99b904594abb)
+
+## Architecture && TechStatck
+
+![GolangNextFullStack](https://github.com/user-attachments/assets/97866ea0-83d3-4772-b29d-5fb7fbe359ef)
 
 ### Golang API
 
